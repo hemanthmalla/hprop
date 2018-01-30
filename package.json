@@ -14,5 +14,23 @@
   "devDependencies": {
     "express": "^4.16.2",
     "request": "^2.83.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemanthmalla/hprop.git"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "monkeypatching",
+    "cls",
+    "continuation-local-storage"
+  ],
+  "bugs": {
+    "url": "https://github.com/hemanthmalla/hprop/issues"
+  },
+  "homepage": "https://github.com/hemanthmalla/hprop#readme"
 }

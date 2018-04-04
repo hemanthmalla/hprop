@@ -8,12 +8,10 @@
   },
   "author": "Hemanth Malla",
   "license": "ISC",
-  "dependencies": {
-    "continuation-local-storage": "^3.2.1"
-  },
   "devDependencies": {
     "express": "^4.16.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "mongodb": "2.0.34"
   },
   "directories": {
     "test": "test"
@@ -27,7 +25,8 @@
     "middleware",
     "monkeypatching",
     "cls",
-    "continuation-local-storage"
+    "continuation-local-storage",
+    "shimming"
   ],
   "bugs": {
     "url": "https://github.com/hemanthmalla/hprop/issues"

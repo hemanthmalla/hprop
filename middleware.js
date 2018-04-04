@@ -4,16 +4,6 @@ var domain = require('domain');
 var request = require('request');
 var util = require('util');
 
-// Required to get a handle of request module's base object, so that the function
-// exported by default can be shimmed.
-var req_path = "";
-for(var key in require.cache){
-	if(key.includes("request/index.js")) {
-		req_path = key;
-		break;
-	}
-}
-
 // Persists all headers that have a prefix of 'hprop-'
 var persist_headers = function(req){
 	var headers = [];
@@ -27,6 +17,9 @@ var persist_headers = function(req){
 var wrap = function(lib, func_name, wrapper){
 	var original = lib[func_name];
 	var wrapped = wrapper(original);
+
+	// Adding the attributes of original function.
+	for(var key in original) wrapped[key] = original[key];
 	lib[func_name] = wrapped;
 	return wrapped;
 };
@@ -55,23 +48,26 @@ var inject_headers = function(original){
 
 var inject_request_module = function(){
 
+	// Required to get a handle of request module's base object, so that the function
+	// exported by default can be shimmed.
+	var request_path = require.resolve("request");
 	var request_funcs = ['get', 'head', 'options', 'post', 'put', 'patch', 'delete', 'del'];
-	wrap(require.cache[req_path], 'exports', inject_headers);
-	for(var i=0; i<request_funcs.length; i++) wrap(request, request_funcs[i], inject_headers);
+	wrap(require.cache[request_path], 'exports', inject_headers);
+	for(var i=0; i<request_funcs.length; i++) wrap(require.cache[request_path]['exports'], request_funcs[i], inject_headers);
 }
 
 module.exports = function(){
 
 	return function(req, res, next){
-
 		var d = domain.create();
 		d.add(req);
 		d.add(res);
 
 		d.run(() => {
 		  persist_headers(req);
-		  inject_request_module();
 		  next();
 		});
 	}
 };
+
+module.exports.init_hprop = inject_request_module

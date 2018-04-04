@@ -1,5 +1,10 @@
+var hprop = require('./../middleware.js');
+
+// Required to be executed first, before any other library imports the request module into module cache.
+hprop.init_hprop();
+
 var express = require('express');
-var hprop = require('./../middleware.js')
+
 var MongoClient = require('mongodb').MongoClient;
 
 var db = null;
@@ -25,11 +30,11 @@ var insertDoc = function(collection, doc, callback){
 var app = express();
 var router = express.Router()
 
+router.use(hprop());
+
 app.listen(3000, function () {
 	console.log('App 1 listening on port 3000!');
 });
-
-router.use(hprop());
 
 router.post("/test", function(req, res, next){
 	var options = { 

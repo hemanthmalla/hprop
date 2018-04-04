@@ -1,5 +1,8 @@
 # Test hprop
 
+Test also checks for persistence of headers after doing a write in mongodb.
+So, we need a database called **hprop_db** and a collection called **hprop_coll**
+
 Start app1 and app2
 ```bash
 $ node app1.js

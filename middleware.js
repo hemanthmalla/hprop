@@ -37,7 +37,7 @@ var inject_headers = function(original){
 		else return;
 
 		if(options['headers'] == null) options['headers'] = [];
-		var incoming_headers = process.domain.req_headers;
+		var incoming_headers = process.domain ? process.domain.req_headers : {};
 
 		for(var header in incoming_headers) options['headers'][header] = incoming_headers[header];
 		arguments['0'] = options;
